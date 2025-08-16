@@ -135,3 +135,74 @@ Let:
   **O(V)  or  O(C1*C2)**
 
 ---
+
+# Magic Square Problem Solution (Backtracking)
+
+---
+
+## AIM
+
+To generate a **Magic Square of order `n`** using the **Backtracking (DFS) approach**, where the sum of each row, each column, and both diagonals is the same.
+
+---
+
+## Problem Description
+
+A **Magic Square** of order `n` is an `n x n` matrix filled with numbers `1` to `n^2`, such that:
+- Each number is used exactly once.
+- The sum of numbers in each row, column, and both diagonals equals the **Magic Constant**:
+
+M = n(n² + 1) / 2
+
+---
+
+## Algorithm
+
+### State Representation
+- `state`: a 2D vector `n x n` representing the partially filled magic square.  
+- `used`: a boolean vector to track which numbers `1..n^2` have been used.  
+- `M`: magic constant for the given `n`.
+
+---
+
+### Validity Check (`is_valid`)
+For every placement at `(row, col)`:
+1. **Check Row**  
+   - If row is complete → sum must equal `M`.  
+   - If row is incomplete → sum must not exceed `M`.
+
+2. **Check Column**  
+   - Same rule as row.
+
+3. **Check Diagonals**  
+   - If `(row, col)` lies on a diagonal, validate the partial/complete sum similarly.
+
+---
+
+### Backtracking (`expand`)
+1. Start filling the square cell by cell (row-major order).  
+2. For each empty cell `(row, col)`:
+   - Try placing a number `1..n^2` that is not yet used.
+   - Mark it as used.
+   - If `is_valid(row, col)` holds:
+     - Recurse to the next cell.
+   - If recursion succeeds → solution found.  
+   - Else, **backtrack**:
+     - Reset cell to `0`.  
+     - Mark number as unused.  
+3. If all cells are filled and valid → solution is found.
+
+---
+
+## Complexity
+
+- **Time Complexity (worst case):**  
+  O((n²)! · n) — factorial due to trying all permutations of numbers,  
+  with an extra `O(n)` factor from the `is_valid` checks at each step.  
+
+- **Space Complexity:**  
+  - O(n²) for storing the matrix (`state`) and `used` array.  
+  - O(n²) for recursion stack in the worst case.  
+  -  Overall: O(n²)
+
+---
