@@ -206,3 +206,90 @@ For every placement at `(row, col)`:
   -  Overall: O(n²)
 
 ---
+
+# Tic Tac Toe Problem (Minimax)
+
+---
+
+## AIM
+
+To implement a **Tic Tac Toe game** where the **AI opponent uses the Minimax algorithm (with depth limitation)** to play optimally against a human player.
+
+---
+
+## Problem Description
+
+Tic Tac Toe is a **two-player strategy game** played on a 3x3 grid:
+- One player uses **X (AI)** and the other uses **O (Human)**.
+- Players take turns placing their mark in an empty cell.
+- The first player to align **three marks in a row, column, or diagonal** wins.
+- If the board is full without a winner, the game ends in a **draw**.
+
+---
+
+## Algorithm
+
+### State Representation
+- `board`: A 1D vector of size `9` representing the 3x3 grid.  
+  - `'-'` → empty cell  
+  - `'O'` → Human player  
+  - `'X'` → AI player  
+
+---
+
+### Utility Functions
+1. **`is_winner(board, player)`**  
+   - Checks if the given player (`X` or `O`) has won.
+
+2. **`is_cell_left(board)`**  
+   - Returns true if there are empty cells remaining.
+
+3. **`evaluate(board)`**  
+   - Heuristic function:  
+     - +score if a line is still open for the AI.  
+     - –score if a line is still open for the human.
+
+---
+
+### Minimax with Depth Limit
+1. **Base cases**:
+   - If AI wins → return `100 - depth`.
+   - If Human wins → return `depth - 100`.
+   - If no moves left or depth limit reached → return heuristic `evaluate(board)`.
+
+2. **Recursive cases**:
+   - If it is AI’s turn (`is_max = true`):  
+     - Simulate all possible AI moves.  
+     - Pick the move that **maximizes** the score.
+   - If it is Human’s turn (`is_max = false`):  
+     - Simulate all possible Human moves.  
+     - Pick the move that **minimizes** the score.
+
+---
+
+### Best Move Selection
+- **`find_best_move(board, max_depth)`**  
+  - Iterates through all empty cells.  
+  - Applies `minimax` on each candidate move.  
+  - Returns the move with the **highest evaluation score** for AI.
+
+---
+
+## Complexity
+
+- **Time Complexity (without depth limit):**  
+  O(b^d), where:  
+  - `b = branching factor (≈ number of empty cells)`  
+  - `d = maximum depth of the game tree (≤ 9 for Tic Tac Toe)`  
+
+- **With depth limit (`max_depth = 4`)**:  
+  - The AI explores only up to 4 moves ahead (2 AI + 2 Human turns).  
+  - This significantly reduces the number of recursive calls while still playing strategically.  
+
+- **Space Complexity:**  
+  - O(d) due to recursion depth.  
+  - For Tic Tac Toe, `d ≤ 9`.
+
+---
+
+
